@@ -1,10 +1,8 @@
-package com.dremov.android.findabuddy;
+package com.dremov.android.findabuddy.view.ativities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +18,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dremov.android.findabuddy.R;
 import com.dremov.android.findabuddy.model.entities.Event;
 import com.dremov.android.findabuddy.view.adapters.EventListAdapter;
 import com.firebase.ui.auth.AuthUI;
@@ -274,5 +272,13 @@ public class MainActivity extends AppCompatActivity
             mEventsDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
+    }
+
+    public void startDetailsActivity(Event event) {
+        Intent intent = new Intent(this, EventDetailsActivity.class);
+        intent.putExtra("title", event.getTitle());
+        intent.putExtra("description", event.getDescription());
+        startActivity(intent);
+        overridePendingTransition(R.anim.bounce_interpolator, R.anim.slide_out_up);
     }
 }

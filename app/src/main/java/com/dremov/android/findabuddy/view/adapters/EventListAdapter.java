@@ -78,6 +78,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventCellHolder> {
         holder.mHeaderTv.setText(event.getTitle());
         holder.mNumberOfBuddiesTv.setText("Buddies needed: " + event.getBuddiesNumber());
 
+        holder.setSelectedEvent(mEventsList.get(position));
+
         animate(holder.itemView, position);
     }
 

@@ -1,4 +1,4 @@
-package com.dremov.android.findabuddy;
+package com.dremov.android.findabuddy.view.ativities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
+import com.dremov.android.findabuddy.R;
 import com.dremov.android.findabuddy.model.entities.Event;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
