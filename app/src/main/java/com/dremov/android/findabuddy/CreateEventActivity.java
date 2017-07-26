@@ -10,13 +10,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
-import com.dremov.android.findabuddy.entities.Event;
-import com.google.firebase.auth.FirebaseAuth;
+import com.dremov.android.findabuddy.model.entities.Event;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 /**
  * Created by Dremov on 26.07.17.

@@ -1,4 +1,4 @@
-package com.dremov.android.findabuddy.entities;
+package com.dremov.android.findabuddy.model.entities;
 
 /**
  * Created by Dremov on 26.07.17.
@@ -9,6 +9,10 @@ public class Event {
     private String description;
     private String imgUrl;
     private String buddiesNumber;
+
+    public Event() {
+
+    }
 
     public Event(String title, String description, String imgUrl, String buddiesNumber) {
         this.title = title;

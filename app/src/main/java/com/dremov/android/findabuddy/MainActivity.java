@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +25,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dremov.android.findabuddy.model.entities.Event;
+import com.dremov.android.findabuddy.view.adapters.EventListAdapter;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,8 +52,8 @@ public class MainActivity extends AppCompatActivity
     private TextView mNavViewHeaderUserEmail;
 
     //    From friendly chat
-    private ListView mMessageListView;
-    //    private MessageAdapter mMessageAdapter;
+    private RecyclerView mMainListView;
+    private EventListAdapter mEventListAdapter;
     private ProgressBar mProgressBar;
     private ImageButton mPhotoPickerButton;
     private EditText mMessageEditText;
@@ -67,14 +72,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mUsername = ANONYMOUS;
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         mNavViewHeaderUserName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username);
         mNavViewHeaderUserEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_email);
+
+
         mCreateEventBtn = (TextView) findViewById(R.id.main_activity_create_event_btn);
         mCreateEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,11 +97,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mUsername = ANONYMOUS;
+        mMainListView = (RecyclerView) findViewById(R.id.activity_main_recycler_view);
+        final LinearLayoutManager llm = new LinearLayoutManager(this);
+        mMainListView.setLayoutManager(llm);
+        mEventListAdapter = new EventListAdapter(this);
+        mMainListView.setAdapter(mEventListAdapter);
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setMoveDuration(2000);
+        itemAnimator.setAddDuration(2000);
+        itemAnimator.setRemoveDuration(3000);
+        mMainListView.setItemAnimator(itemAnimator);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -144,7 +163,7 @@ public class MainActivity extends AppCompatActivity
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
         detachDatabaseReadListener();
-//        mMessageAdapter.clear();
+        mEventListAdapter.clear();
     }
 
     @Override
@@ -214,7 +233,7 @@ public class MainActivity extends AppCompatActivity
 
     private void onSignedOutCleanup() {
         mUsername = ANONYMOUS;
-//        mMessageAdapter.clear();
+        mEventListAdapter.clear();
         detachDatabaseReadListener();
     }
 
@@ -223,13 +242,12 @@ public class MainActivity extends AppCompatActivity
             mChildEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                    FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
-//                    mMessageAdapter.add(friendlyMessage);
+                    Event newEvent = dataSnapshot.getValue(Event.class);
+                    mEventListAdapter.addEvent(newEvent);
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                 }
 
                 @Override
@@ -247,13 +265,13 @@ public class MainActivity extends AppCompatActivity
 
                 }
             };
-//            mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
+            mEventsDatabaseReference.addChildEventListener(mChildEventListener);
         }
     }
 
     private void detachDatabaseReadListener() {
         if (mChildEventListener != null) {
-//            mMessagesDatabaseReference.removeEventListener(mChildEventListener);
+            mEventsDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
     }
