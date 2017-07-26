@@ -43,10 +43,12 @@ public class MainActivity extends AppCompatActivity
     public static final int RC_SIGN_IN = 1;
 
     private TextView mCreateEventBtn;
+    private TextView mNavViewHeaderUserName;
+    private TextView mNavViewHeaderUserEmail;
 
-//    From friendly chat
+    //    From friendly chat
     private ListView mMessageListView;
-//    private MessageAdapter mMessageAdapter;
+    //    private MessageAdapter mMessageAdapter;
     private ProgressBar mProgressBar;
     private ImageButton mPhotoPickerButton;
     private EditText mMessageEditText;
@@ -68,6 +70,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        mNavViewHeaderUserName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username);
+        mNavViewHeaderUserEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_email);
         mCreateEventBtn = (TextView) findViewById(R.id.main_activity_create_event_btn);
         mCreateEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,28 +89,26 @@ public class MainActivity extends AppCompatActivity
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                String userName = null;
+                String userEmail = null;
+
+                if (user != null) {
+                    userName = user.getDisplayName();
+                    userEmail = user.getEmail();
+                    mNavViewHeaderUserName.setText(userName);
+                    mNavViewHeaderUserEmail.setText(userEmail);
+                }
 
                 if (user != null) {
                     Toast.makeText(MainActivity.this, "You're now signed in. Welcome to Find A Buddz App!", Toast.LENGTH_SHORT).show();

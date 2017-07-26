@@ -14,8 +14,6 @@
         android:background="@drawable/load_photo_bg"
         android:text="+ Add Photo"/>
 
-
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,15 +24,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
-
     </Spinner>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title of Your Event"/>
 
     <EditText
         android:id="@+id/event_description_et"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
+        android:gravity="bottom"
         android:padding="10dp"
         android:layout_gravity="bottom"
         android:hint="Description"/>
+
+    <TextView
+        android:id="@+id/commit_event_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@color/greenAddBtn"
+        android:text="Commit event"/>
 
 </LinearLayout>

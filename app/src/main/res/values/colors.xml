@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="greenAddBtn">#02C39A</color>
+    <color name="event_card_background">#B4E1FF</color>
 </resources>
