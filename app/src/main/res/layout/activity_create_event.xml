@@ -27,6 +27,7 @@
     </Spinner>
 
     <EditText
+        android:id="@+id/event_title_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Title of Your Event"/>

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
     private String mUsername;
 
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mMessagesDatabaseReference;
+    private DatabaseReference mEventsDatabaseReference;
     private ChildEventListener mChildEventListener;
 
     private FirebaseAuth mFirebaseAuth;
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 if (user != null) {
-                    Toast.makeText(MainActivity.this, "You're now signed in. Welcome to Find A Buddz App!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "You're now signed in. Welcome to Find A Buddy App!", Toast.LENGTH_SHORT).show();
                     onSignedInInitialize(user.getDisplayName());
 
                 } else {
