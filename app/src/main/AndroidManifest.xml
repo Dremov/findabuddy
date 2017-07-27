@@ -27,6 +27,10 @@
         <activity android:name=".view.ativities.EventDetailsActivity">
 
         </activity>
+
+        <activity android:name=".view.ativities.MessengerActivity">
+
+        </activity>
     </application>
 
 </manifest>

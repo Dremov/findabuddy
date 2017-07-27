@@ -5,6 +5,8 @@ package com.dremov.android.findabuddy.model.entities;
  */
 
 public class Event {
+    private String id;
+
     private String title;
     private String description;
     private String imgUrl;
