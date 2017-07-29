@@ -137,7 +137,7 @@ public class MessengerActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
-                    Toast.makeText(MessengerActivity.this, "You're now signed in. Welcome to FriendlyChat!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MessengerActivity.this, "You're now signed in. Welcome to FriendlyChat!", Toast.LENGTH_SHORT).show();
                     onSignedInInitialize(user.getDisplayName());
 
                 } else {

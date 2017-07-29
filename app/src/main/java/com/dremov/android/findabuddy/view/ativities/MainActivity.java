@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     private String mUsername;
 
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mEventsDatabaseReference;
+    private DatabaseReference mEventsDatabaseReference, mUsersDatabaseReference;
     private ChildEventListener mChildEventListener;
 
     private FirebaseAuth mFirebaseAuth;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
+        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -121,11 +122,14 @@ public class MainActivity extends AppCompatActivity
                 String userName = null;
                 String userEmail = null;
 
+
                 if (user != null) {
                     userName = user.getDisplayName();
                     userEmail = user.getEmail();
                     mNavViewHeaderUserName.setText(userName);
                     mNavViewHeaderUserEmail.setText(userEmail);
+
+
                 }
 
                 if (user != null) {
@@ -201,23 +205,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -264,12 +251,14 @@ public class MainActivity extends AppCompatActivity
                 }
             };
             mEventsDatabaseReference.addChildEventListener(mChildEventListener);
+            mUsersDatabaseReference.addChildEventListener(mChildEventListener);
         }
     }
 
     private void detachDatabaseReadListener() {
         if (mChildEventListener != null) {
             mEventsDatabaseReference.removeEventListener(mChildEventListener);
+            mUsersDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
     }

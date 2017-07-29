@@ -5,6 +5,7 @@ package com.dremov.android.findabuddy.model.entities;
  */
 
 public class Event {
+
     private String id;
 
     private String title;
@@ -21,6 +22,14 @@ public class Event {
         this.description = description;
         this.imgUrl = imgUrl;
         this.buddiesNumber = buddiesNumber;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
